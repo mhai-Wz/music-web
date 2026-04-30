@@ -28,7 +28,7 @@ function Detail() {
 
   /* LOAD SONG */
   useEffect(() => {
-    fetch(`http://localhost:5000/songs/${id}`)
+    fetch(`https://music-web-1-gk54.onrender.com/songs/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setSong(data);

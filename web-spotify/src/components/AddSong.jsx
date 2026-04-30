@@ -18,7 +18,7 @@ function AddSong() {
     const form = new FormData();
     form.append("file", file);
 
-    const res = await fetch("http://localhost:5000/upload", {
+    const res = await fetch("https://music-web-1-gk54.onrender.com/upload", {
       method: "POST",
       body: form,
     });
@@ -43,7 +43,7 @@ function AddSong() {
       const videoUrl = await uploadFile(video);
       const audioUrl = await uploadFile(audio);
 
-      await fetch("http://localhost:5000/songs", {
+      await fetch("https://music-web-1-gk54.onrender.com/songs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

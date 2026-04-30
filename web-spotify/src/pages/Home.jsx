@@ -11,7 +11,7 @@ function Home() {
       FETCH FROM BACKEND
   ====================== */
   useEffect(() => {
-    fetch("http://localhost:5000/songs")
+    fetch("https://music-web-1-gk54.onrender.com/songs")
       .then((res) => res.json())
       .then((data) => setSongs(data))
       .catch((err) => console.log(err));

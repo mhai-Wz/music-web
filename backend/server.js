@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -7,39 +9,65 @@ const streamifier = require("streamifier");
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+/* ======================
+   MIDDLEWARE
+====================== */
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+}));
+
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true }));
 
 /* ======================
-   MONGODB
+   DATABASE
 ====================== */
 mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log("Mongo Error:", err));
 
 /* ======================
-   CLOUDINARY CONFIG
+   CLOUDINARY
 ====================== */
 cloudinary.config({
-  cloud_name: "dtorkegpi",
-  api_key: "129542678626466",
-  api_secret: "oq9UyTsEAst5FDPovAXl3oZmpAU",
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
 });
 
 /* ======================
-   SONG MODEL
+   MODEL
 ====================== */
-const Song = mongoose.model("Song", {
-  title: String,
-  image: String,
-  video: String,
-  audio: String,
+const songSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    image: String,
+    video: String,
+    audio: String,
+  },
+  { timestamps: true }
+);
+
+const Song = mongoose.model("Song", songSchema);
+
+/* ======================
+   TEST ROUTE
+====================== */
+app.get("/", (req, res) => {
+  res.send("Backend running successfully");
 });
 
 /* ======================
    GET ALL SONGS
 ====================== */
 app.get("/songs", async (req, res) => {
-  const songs = await Song.find();
-  res.json(songs);
+  try {
+    const songs = await Song.find().sort({ createdAt: -1 });
+    res.json(songs);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 /* ======================
@@ -50,12 +78,16 @@ app.get("/songs/:id", async (req, res) => {
     const song = await Song.findById(req.params.id);
 
     if (!song) {
-      return res.status(404).json({ message: "Song not found" });
+      return res.status(404).json({
+        message: "Song not found",
+      });
     }
 
     res.json(song);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
   }
 });
 
@@ -63,21 +95,54 @@ app.get("/songs/:id", async (req, res) => {
    ADD SONG
 ====================== */
 app.post("/songs", async (req, res) => {
-  const song = new Song(req.body);
-  await song.save();
-  res.json(song);
+  try {
+    const { title, image, video, audio } = req.body;
+
+    const song = await Song.create({
+      title,
+      image,
+      video,
+      audio,
+    });
+
+    res.status(201).json(song);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 });
 
 /* ======================
-   UPLOAD FILE CLOUDINARY
+   DELETE SONG
 ====================== */
-const upload = multer({ storage: multer.memoryStorage() });
+app.delete("/songs/:id", async (req, res) => {
+  try {
+    await Song.findByIdAndDelete(req.params.id);
+
+    res.json({
+      message: "Deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+/* ======================
+   UPLOAD FILE
+====================== */
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024 },
+});
 
 app.post("/upload", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({
-        message: "Không có file gửi lên",
+        message: "No file uploaded",
       });
     }
 
@@ -85,6 +150,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
       const stream = cloudinary.uploader.upload_stream(
         {
           resource_type: "auto",
+          folder: "music-web",
         },
         (error, result) => {
           if (error) reject(error);
@@ -92,9 +158,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
         }
       );
 
-      streamifier
-        .createReadStream(req.file.buffer)
-        .pipe(stream);
+      streamifier.createReadStream(req.file.buffer).pipe(stream);
     });
 
     res.json({
@@ -102,14 +166,22 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     });
 
   } catch (error) {
-    console.log("UPLOAD ERROR:", error);
-
     res.status(500).json({
-      message: "Upload lỗi",
+      message: "Upload failed",
       error: error.message,
     });
   }
 });
+
+/* ======================
+   404
+====================== */
+app.use((req, res) => {
+  res.status(404).json({
+    message: "Route not found",
+  });
+});
+
 /* ======================
    START SERVER
 ====================== */
