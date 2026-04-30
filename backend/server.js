@@ -13,7 +13,7 @@ app.use(express.json());
 /* ======================
    MONGODB
 ====================== */
-mongoose.connect("mongodb://localhost:27017/music");
+mongoose.connect(process.env.MONGO_URI)
 
 /* ======================
    CLOUDINARY CONFIG
