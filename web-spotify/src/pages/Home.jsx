@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SongCard from "../components/SongCard";
-import bgVideo from "../assets/videos/bg.mp4";
 
 function Home() {
   const [songs, setSongs] = useState([]);
@@ -19,8 +18,16 @@ function Home() {
 
   return (
     <div style={styles.page}>
-      <video autoPlay muted loop style={styles.videoBg}>
-        <source src={bgVideo} type="video/mp4" />
+      {/* Video Background - Sửa ở đây */}
+      <video 
+        autoPlay 
+        muted 
+        loop 
+        playsInline
+        style={styles.videoBg}
+      >
+        <source src="/videos/bg.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
       </video>
 
       <div style={styles.glassPage}>
@@ -33,13 +40,11 @@ function Home() {
             onClick={() => navigate("/add-song")}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "scale(1.05)";
-              e.currentTarget.style.background =
-                "rgba(255,255,255,0.18)";
+              e.currentTarget.style.background = "rgba(255,255,255,0.18)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.background =
-                "rgba(255,255,255,0.10)";
+              e.currentTarget.style.background = "rgba(255,255,255,0.10)";
             }}
           >
             + Add Song
