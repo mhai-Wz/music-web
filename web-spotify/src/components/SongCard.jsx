@@ -66,33 +66,32 @@ function SongCard({ song }) {
 
 const styles = {
   card: {
-    width: "320px",
-    padding: "18px",
-    borderRadius: "24px",
-
+    width: "100%",
+    maxWidth: "320px",
+    padding: "16px",
+    borderRadius: "22px",
     background: "rgba(255,255,255,0.12)",
     border: "1px solid rgba(255,255,255,0.18)",
     backdropFilter: "blur(12px)",
-
     boxShadow: "0 8px 30px rgba(0,0,0,0.18)",
     color: "white",
-
     transition: "all 0.28s ease",
     cursor: "pointer",
   },
 
   img: {
     width: "100%",
-    height: "230px",
+    height: "200px",
     objectFit: "cover",
-    borderRadius: "18px",
-    marginBottom: "18px",
+    borderRadius: "16px",
+    marginBottom: "14px",
   },
 
   title: {
-    fontSize: "30px",
+    fontSize: "24px",
     fontWeight: "700",
-    marginBottom: "18px",
+    marginBottom: "14px",
+    lineHeight: "1.3",
   },
 
   bottom: {
@@ -102,33 +101,49 @@ const styles = {
   },
 
   status: {
-    fontSize: "16px",
+    fontSize: "15px",
     color: "rgba(255,255,255,0.85)",
     display: "flex",
     alignItems: "center",
-    gap: "10px",
+    gap: "8px",
   },
 
   dot: {
-    width: "10px",
-    height: "10px",
+    width: "9px",
+    height: "9px",
     borderRadius: "50%",
   },
 
   playBtn: {
-    width: "58px",
-    height: "58px",
+    width: "52px",
+    height: "52px",
     borderRadius: "50%",
     border: "1px solid rgba(255,255,255,0.18)",
-
     background: "rgba(255,255,255,0.18)",
     backdropFilter: "blur(10px)",
-
     color: "white",
-    fontSize: "22px",
+    fontSize: "20px",
     cursor: "pointer",
-
     transition: "all 0.25s ease",
+  },
+
+  // Mobile
+  "@media (max-width: 480px)": {
+    card: {
+      maxWidth: "100%",
+      padding: "14px",
+    },
+    img: {
+      height: "180px",
+    },
+    title: {
+      fontSize: "22px",
+    },
+    playBtn: {
+      width: "48px",
+      height: "48px",
+      fontSize: "18px",
+    },
   },
 };
 

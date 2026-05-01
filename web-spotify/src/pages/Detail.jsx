@@ -283,64 +283,66 @@ const styles = {
   overlay: {
     position: "absolute",
     inset: 0,
-    background: "rgba(0,0,0,0.35)",
+    background: "rgba(0,0,0,0.45)",
   },
 
   layout: {
     position: "absolute",
     inset: 0,
     display: "flex",
-    justifyContent: "center",
+    flexDirection: "column",
+    justifyContent: "flex-start",
     alignItems: "center",
-    gap: "30px",
+    gap: "20px",
+    padding: "20px 15px",
+    overflowY: "auto",
   },
 
   card: {
     ...glass,
-    width: "460px",
-    padding: "30px",
-    borderRadius: "30px",
-    color: "white",
-    textAlign: "center",
-    position: "relative",
+    width: "100%",
+    maxWidth: "460px",
+    padding: "24px 20px",
+    borderRadius: "28px",
   },
 
   backBtn: {
     position: "absolute",
-    top: "20px",
-    left: "20px",
-    width: "45px",
-    height: "45px",
+    top: "16px",
+    left: "16px",
+    width: "42px",
+    height: "42px",
     borderRadius: "50%",
     border: "none",
     background: "rgba(255,255,255,0.15)",
     color: "white",
     cursor: "pointer",
+    zIndex: 10,
   },
 
   cover: {
-    width: "180px",
-    height: "180px",
-    borderRadius: "24px",
+    width: "160px",
+    height: "160px",
+    borderRadius: "20px",
     objectFit: "cover",
-    marginBottom: "18px",
+    marginBottom: "16px",
   },
 
   title: {
-    fontSize: "34px",
-    marginBottom: "25px",
+    fontSize: "28px",
+    marginBottom: "20px",
   },
 
   controls: {
     display: "flex",
     justifyContent: "center",
-    gap: "14px",
-    marginBottom: "22px",
+    gap: "12px",
+    marginBottom: "20px",
   },
 
   smallBtn: {
-    width: "56px",
-    height: "56px",
+    width: "52px",
+    height: "52px",
     borderRadius: "50%",
     border: "none",
     background: "rgba(255,255,255,0.12)",
@@ -349,11 +351,12 @@ const styles = {
   },
 
   playBtn: {
-    width: "74px",
-    height: "74px",
+    width: "70px",
+    height: "70px",
     borderRadius: "50%",
     border: "none",
     background: "white",
+    color: "#000",
     cursor: "pointer",
   },
 
@@ -365,7 +368,9 @@ const styles = {
     color: "white",
   },
 
-  progress: { flex: 1 },
+  progress: { 
+    flex: 1 
+  },
 
   volumeRow: {
     display: "flex",
@@ -380,21 +385,58 @@ const styles = {
 
   lyricsBox: {
     ...glass,
-    width: "520px",
-    height: "620px",
-    padding: "40px",
-    borderRadius: "30px",
+    width: "100%",
+    maxWidth: "520px",
+    height: "auto",
+    minHeight: "320px",
+    maxHeight: "520px",
+    padding: "30px 24px",
+    borderRadius: "28px",
     overflowY: "auto",
     scrollbarWidth: "none",
   },
 
   lyricLine: {
     textAlign: "center",
-    marginBottom: "28px",
+    marginBottom: "24px",
     transition: "0.35s",
     fontWeight: "600",
-    lineHeight: "1.7",
+    lineHeight: "1.75",
+  },
+
+  // ================= MOBILE RESPONSIVE =================
+  "@media (max-width: 768px)": {
+    layout: {
+      padding: "15px 10px",
+      gap: "16px",
+    },
+    card: {
+      padding: "20px 16px",
+    },
+    cover: {
+      width: "140px",
+      height: "140px",
+    },
+    title: {
+      fontSize: "26px",
+    },
+    lyricsBox: {
+      padding: "24px 20px",
+    },
+  },
+
+  "@media (max-width: 480px)": {
+    card: {
+      padding: "18px 14px",
+    },
+    playBtn: {
+      width: "66px",
+      height: "66px",
+    },
+    title: {
+      fontSize: "24px",
+    },
+    // Không dùng activeIndex ở đây
   },
 };
-
 export default Detail;

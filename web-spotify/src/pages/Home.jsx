@@ -83,13 +83,12 @@ const styles = {
   },
 
   glassPage: {
-    minHeight: "90vh",
-    width: "90%",
-    margin: "30px auto",
-    padding: "40px",
+    minHeight: "100vh",
+    width: "100%",
+    margin: "0 auto",
+    padding: "20px 15px",
     background: "rgba(255,255,255,0.03)",
     backdropFilter: "blur(4px)",
-    borderRadius: "25px",
     boxShadow: "0 8px 30px rgba(0,0,0,0.2)",
   },
 
@@ -97,24 +96,25 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "30px",
-    gap: "20px",
+    marginBottom: "25px",
+    flexWrap: "wrap",
+    gap: "15px",
   },
 
   title: {
     color: "white",
-    fontSize: "32px",
+    fontSize: "28px",
     margin: 0,
   },
 
   addBtn: {
-    padding: "14px 22px",
+    padding: "12px 20px",
     borderRadius: "14px",
     border: "1px solid rgba(255,255,255,0.2)",
     background: "rgba(255,255,255,0.10)",
     backdropFilter: "blur(10px)",
     color: "white",
-    fontSize: "16px",
+    fontSize: "15px",
     fontWeight: "600",
     cursor: "pointer",
     transition: "0.25s ease",
@@ -123,8 +123,33 @@ const styles = {
   list: {
     display: "flex",
     flexWrap: "wrap",
-    gap: "20px",
+    gap: "18px",
+    justifyContent: "center",
+  },
+
+  // === MEDIA QUERIES ===
+  "@media (max-width: 768px)": {
+    glassPage: {
+      padding: "15px 12px",
+      margin: "0",
+      borderRadius: "0",
+    },
+    title: {
+      fontSize: "24px",
+    },
+    list: {
+      gap: "16px",
+    },
+  },
+
+  "@media (max-width: 480px)": {
+    title: {
+      fontSize: "22px",
+    },
+    addBtn: {
+      padding: "10px 16px",
+      fontSize: "14px",
+    },
   },
 };
-
 export default Home;
